@@ -51,9 +51,14 @@ class List
     true
   end
 
-  # def [](idx)
-  #   return nil if !valid_index?(idx)
-  #   @items[idx]
-  # end
+  def [](idx)
+    # not sure if this one works
+    return nil if !valid_index?(idx)
+    @items[idx]
+  end
+
+  def priority
+    @items[0]
+  end
 
 end
