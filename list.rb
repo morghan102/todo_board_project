@@ -82,16 +82,14 @@ class List
 
 
   def print_full_item(idx)
-    # prints every item in full
+
     return false if !valid_index?(idx)
-    # puts
-    # @items.each do |item|
-      puts "- - - - -"
-      puts @items[idx].title
-      puts @items[idx].deadline
-      puts @items[idx].description
-      puts "- - - - -"
-    # end
+    puts
+    puts "- - - - -"
+    puts @items[idx].title
+    puts @items[idx].deadline
+    puts @items[idx].description
+    puts "- - - - -"
     puts
   end
 
@@ -112,9 +110,7 @@ class List
     # amount.times { |i| swap(idx, idx - 1) }
   end
 
-  def reverse_swap(idx_1, idx_2)
 
-  end
 
   def down(idx, amount=1)
     return false if !valid_index?(idx)
@@ -125,12 +121,16 @@ class List
       @items.each_with_index do |ele, i|
         if i == idx
           @items[i], @items[i+1] = @items[i+1], @items[i]
-          # i += 1
         end
       end
       idx += 1
       n += 1
     end
     true
+  end
+
+  def sort_by_date!
+    @items.sort_by! { |item| item.deadline }
+    # @items.print
   end
 end
