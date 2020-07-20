@@ -17,6 +17,14 @@ class Item
     true
   end
 
+  def self.valid_title?(title)
+    if title.length >= 10
+      p "That item name is too long"
+      return false
+    end
+    true
+  end
+
 
 
   attr_accessor :title, :description
@@ -25,7 +33,11 @@ class Item
   
   
   def initialize(title, deadline, description)
-    @title = title
+    if !Item.valid_title?(title)
+      raise "Please choose a shorter name."
+    else
+      @title = title
+    end
     @description = description
     if !Item.valid_date?(deadline)
         raise "Please reenter a date."

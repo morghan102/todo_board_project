@@ -12,7 +12,7 @@ class List
   
   def add_item(title, deadline, *description)
 
-    if !Item.valid_date?(deadline)
+    if !Item.valid_date?(deadline) || !Item.valid_title?(title)
       return false
     else
       @items << Item.new(title, deadline, description)
@@ -40,6 +40,7 @@ class List
     true
   end
 
+
   def swap(idx_1, idx_2)
     return false if !valid_index?(idx_1) || !valid_index?(idx_2)
 
@@ -51,14 +52,85 @@ class List
     true
   end
 
+
   def [](idx)
     # not sure if this one works
     return nil if !valid_index?(idx)
     @items[idx]
   end
 
+
   def priority
     @items[0]
   end
 
+
+  def print
+    puts "-------------------------".rjust(29)
+    puts @label.rjust(25) #!!!!!!!!!
+    # this is not centered, diff places depending on length of the label
+    puts "---------------".rjust(23)
+    puts "Item     |  Deadline  |  Description"
+    puts "-----".rjust(19)
+    
+    @items.each do |item|
+      puts item.title.ljust(12) + item.deadline.ljust(14) +item.description.join
+    end
+    puts "-------------------------".rjust(29)
+
+  end
+
+
+  def print_full_item(idx)
+    # prints every item in full
+    return false if !valid_index?(idx)
+    # puts
+    # @items.each do |item|
+      puts "- - - - -"
+      puts @items[idx].title
+      puts @items[idx].deadline
+      puts @items[idx].description
+      puts "- - - - -"
+    # end
+    puts
+  end
+
+  def print_priority
+    print_full_item(0)
+  end
+
+# what was their  solution to this? i feel like using times mehod would be best but not sure how to implement
+  def up(idx, amount=1)
+    return false if !valid_index?(idx) #@items.length < idx + 1 #check if idx is in items
+    i = 0
+    while i < amount
+      swap(idx, idx - 1)
+      idx -= 1
+      i += 1
+    end
+    true
+    # amount.times { |i| swap(idx, idx - 1) }
+  end
+
+  def reverse_swap(idx_1, idx_2)
+
+  end
+
+  def down(idx, amount=1)
+    return false if !valid_index?(idx)
+
+    n = 0 #i is num of times swap happens
+    while n < amount
+      # debugger
+      @items.each_with_index do |ele, i|
+        if i == idx
+          @items[i], @items[i+1] = @items[i+1], @items[i]
+          # i += 1
+        end
+      end
+      idx += 1
+      n += 1
+    end
+    true
+  end
 end
