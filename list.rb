@@ -91,6 +91,7 @@ class List
 
   def print_priority
     print_full_item(0)
+    true
   end
 
   def up(idx, amount=1)

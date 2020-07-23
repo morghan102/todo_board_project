@@ -34,7 +34,11 @@ class TodoBoard
     when "priority"
         @list.print_priority
     when "print"
-        @list.print(*args)
+        if args.length == 1
+            @list.print_full_item(*args.map(&:to_i))
+        else
+            @list.print
+        end
     when "quit"
         return false
     else
@@ -63,21 +67,10 @@ class TodoBoard
     puts
   end
 
+  def run
+    while get_command != false
+        get_command
+    end
 end
 
-
-# mktodo <title> <deadline> <optional description>
-
-# up <index> <optional amount>
-
-# down <index> <optional amount>
-
-# swap <index_1> <index_2>
-
-# sort
-
-# priority
-
-# print <optional index>
-
-# quit
+end
