@@ -24,20 +24,7 @@ class List
   end
 
   def valid_index?(idx)
-    # # i truly cant think of a better way to do this :(
-    #   t_f_arr = []
-    # @items.each_with_index do |e, i|
-    #   # debugger 
-    #   if i != idx
-    #     t_f_arr << false
-    #   else 
-    #     t_f_arr << true
-    #   end
-    # end
-    # return false if t_f_arr.all? { |e| e == false }
-    # true
   0 <= idx && idx < self.size
-# their solution, much cleaner!
   end
 
 
@@ -62,7 +49,6 @@ class List
   def print
     puts "-------------------------".rjust(29)
     puts @label.upcase.rjust(16) 
-# centered now?
     puts "---------------".rjust(23)
     puts "Item     |  Deadline  |  Done  |  Description"
     puts "-----".rjust(19)
@@ -88,7 +74,7 @@ class List
     puts "Title: #{@items[idx].title}"
     puts "Deadline: #{@items[idx].deadline}"
     puts "Complete? #{@items[idx].done}"
-    puts "Description: #{@items[idx].description.join}"
+    puts "Description: #{@items[idx].description.join(" ")}"
     puts "- - - - -"
     puts
     true

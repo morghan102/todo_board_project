@@ -44,11 +44,10 @@ class Item
     else
         @deadline = deadline
     end
-    @done = false #not sure about this, seems too simple
+    @done = false 
   end
 
   def toggle
-    # can user access the variable? dunno how to... encapsulate?
     if @done
       @done = false
     elsif !@done

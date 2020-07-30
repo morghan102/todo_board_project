@@ -4,50 +4,53 @@ require "byebug"
 
 class TodoBoard
 
-  def initialize(label)
-    @list = List.new(label)
+  def initialize
+    @board = {}
   end
 
-# A small detail we can worry about later is that the user will 
-# enter their command with spaces separating their arguments. 
-# This will cause issues if they use any spaces within the text 
-# for the todo's title or description. We'll ignore this caveat for 
-# now.
+
   def get_command
     print "\nEnter a command: "
-    command, *args = gets.chomp.split(" ")
+    command, label, *args = gets.chomp.split(" ")
 
     #  debugger
     case command
     when "commands"
         list_cmds
     when "mktodo"
-        @list.add_item(*args) 
+        @board[label].add_item(*args)
     when "up"
-        @list.up(*args.map(&:to_i))
+        @board[label].up(*args.map(&:to_i))
     when "down"
-        @list.down(*args.map(&:to_i))
+        @board[label].down(*args.map(&:to_i))
     when "swap"
-        @list.swap(*args.map(&:to_i)) 
+        @board[label].swap(*args.map(&:to_i)) 
     when "sort"
-        @list.sort_by_date!
+        @board[label].sort_by_date!
     when "priority"
-        @list.print_priority
+        @board[label].print_priority
     when "print"
         if args.length == 1
-            @list.print_full_item(*args.map(&:to_i))
+            @board[label].print_full_item(*args.map(&:to_i))
         else
-            @list.print
+            @board[label].print
         end
     when "quit"
         return false
     when "toggle"
-        @list.toggle_item(*args.map(&:to_i))
+        @board[label].toggle_item(*args.map(&:to_i))
     when "rm"
-        @list.remove_item(*args.map(&:to_i))
+        @board[label].remove_item(*args.map(&:to_i))
     when "purge"
-        # debugger
-        @list.purge
+        @board[label].purge
+    when "mklist"
+        @board[label] = List.new(label)
+    when "ls"
+        @board.each { |k,v| puts k }
+    when "showall"
+        @board.each do |label, instance|
+            instance.print
+        end
     else
         puts "That is not an acceptable command."
         true
@@ -58,25 +61,31 @@ class TodoBoard
     puts
     puts "\nHere's what you can command:"
     puts
-    puts "mktodo <title> <deadline> <optional description>"
+    puts "mklist <new list label>"
     puts "-"
-    puts "up or down <index> <optional amount>"
+    puts "mktodo <list label> <title> <deadline> <optional description>"
     puts "-"
-    puts "swap <index_1> <index_2>"
+    puts "up or down <list label> <index> <optional amount>"
     puts "-"
-    puts "sort (this sorts by date)"
+    puts "swap <list label> <index_1> <index_2>"
     puts "-"
-    puts "priority (this prints what's at the top of your list)"
+    puts "sort <list label> (this sorts by date)"
     puts "-"
-    puts "print <optional index> (if no index is given, this prints the whole lit. If index is given, it prints all info of specified item)"
+    puts "priority <list label> (this prints what's at the top of your list)"
+    puts "-"
+    puts "print <list label> <optional index> (if no index is given, this prints the whole lit. If index is given, it prints all info of specified item)"
+    puts "-"
+    puts "showall (prints all lists)"
+    puts "-"
+    puts "ls (prints all list labels)"
     puts "-"
     puts "quit"
-    puts
-    puts "toggle <index> (this changes item's status to complete)"
-    puts
-    puts "rm <index> (deletes chosen item)"
-    puts
-    puts "purge (deletes all completed items)"
+    puts "-"
+    puts "toggle <list label> <index> (this changes item's status to complete)"
+    puts "-"
+    puts "rm <list label> <index> (deletes chosen item)"
+    puts "-"
+    puts "purge <list label> (deletes all completed items)"
     puts
     true
   end
@@ -91,5 +100,4 @@ class TodoBoard
 end
 
 end
-# sometimes it just boots you out of run:
-# after purge of 1 item by itself
+TodoBoard.new.run
